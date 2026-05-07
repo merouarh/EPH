@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Activités — EPH Soeurs Bedj Chlef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ===== ACTIVITES PAGE ===== */
+.activities-main { padding: 72px 0; background: var(--bg); }
+
+/* Featured */
+.featured-article { display: grid; grid-template-columns: 1.2fr 1fr; gap: 0; background: var(--card-bg); border-radius: 22px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 64px; }
+.featured-img { position: relative; min-height: 400px; overflow: hidden; }
+.featured-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+.featured-article:hover .featured-img img { transform: scale(1.04); }
+.featured-cat { position: absolute; top: 20px; left: 20px; background: var(--teal); color: #fff; padding: 5px 14px; border-radius: 50px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.featured-body { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; }
+.featured-meta { display: flex; align-items: center; gap: 16px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; flex-wrap: wrap; }
+.featured-meta i { color: var(--teal); }
+.featured-body h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem,2.5vw,1.8rem); font-weight: 700; line-height: 1.3; margin-bottom: 14px; }
+.featured-body p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.82; margin-bottom: 22px; }
+.read-more { display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: var(--primary); transition: gap var(--transition); }
+.read-more:hover { gap: 13px; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 44px; }
+.filter-btn { padding: 9px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-muted); background: var(--card-bg); cursor: pointer; transition: all var(--transition); }
+.filter-btn:hover, .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Grid */
+.activities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 28px; }
+
+/* Card */
+.activity-card { background: var(--card-bg); border-radius: 18px; overflow: hidden; border: 1px solid var(--border); transition: all var(--transition); display: flex; flex-direction: column; }
+.activity-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+.ac-img { height: 210px; overflow: hidden; position: relative; flex-shrink: 0; }
+.ac-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+.activity-card:hover .ac-img img { transform: scale(1.06); }
+.ac-cat { position: absolute; top: 14px; left: 14px; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.cat-sante { background: rgba(47,174,155,0.9); color: #fff; }
+.cat-formation { background: rgba(31,95,139,0.9); color: #fff; }
+.cat-infra { background: rgba(44,111,163,0.9); color: #fff; }
+.cat-prevention { background: rgba(39,174,96,0.9); color: #fff; }
+.cat-communaute { background: rgba(142,68,173,0.9); color: #fff; }
+.cat-medical { background: rgba(192,57,43,0.9); color: #fff; }
+.ac-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.ac-meta { display: flex; align-items: center; gap: 14px; font-size: 0.76rem; color: var(--text-muted); margin-bottom: 10px; flex-wrap: wrap; }
+.ac-meta i { color: var(--teal); }
+.ac-body h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; line-height: 1.45; margin-bottom: 10px; }
+.ac-body p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.72; flex: 1; }
+.ac-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+.ac-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: var(--primary); transition: gap var(--transition); }
+.ac-link:hover { gap: 10px; }
+.ac-share { display: flex; gap: 6px; }
+.ac-share a { width: 30px; height: 30px; border-radius: 8px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-muted); transition: all var(--transition); }
+.ac-share a:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Newsletter */
+.newsletter-section { background: linear-gradient(135deg, var(--primary), var(--dark)); color: #fff; padding: 72px 0; }
+.newsletter-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+.newsletter-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; margin-bottom: 12px; }
+.newsletter-inner p { font-size: 0.92rem; opacity: 0.82; margin-bottom: 28px; line-height: 1.7; }
+.newsletter-form { display: flex; gap: 10px; }
+.newsletter-form input { flex: 1; padding: 13px 18px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; font-size: 0.9rem; outline: none; }
+.newsletter-form input::placeholder { color: rgba(255,255,255,0.5); }
+.newsletter-form input:focus { border-color: var(--teal-light); }
+.newsletter-form button { padding: 13px 22px; border-radius: 10px; background: var(--teal); color: #fff; font-weight: 700; font-size: 0.88rem; cursor: pointer; border: none; transition: all var(--transition); white-space: nowrap; }
+.newsletter-form button:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+/* Pagination */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 56px; }
+.page-btn { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-muted); background: var(--card-bg); cursor: pointer; transition: all var(--transition); }
+.page-btn:hover, .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-btn.arrow { font-size: 0.75rem; }
+
+/* Article modal */
+.article-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 2000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+.article-modal.open { display: flex; }
+.article-modal-inner { background: var(--card-bg); border-radius: 20px; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
+.modal-img { height: 280px; overflow: hidden; border-radius: 20px 20px 0 0; }
+.modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.modal-body { padding: 32px; }
+.modal-meta { display: flex; gap: 14px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px; flex-wrap: wrap; }
+.modal-meta i { color: var(--teal); }
+.modal-body h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem,2.5vw,1.6rem); font-weight: 700; margin-bottom: 16px; line-height: 1.35; }
+.modal-body p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 12px; }
+.modal-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.4); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-size: 1rem; z-index: 10; transition: background var(--transition); }
+.modal-close:hover { background: rgba(0,0,0,0.7); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .featured-article { grid-template-columns: 1fr; }
+  .featured-img { min-height: 260px; }
+  .featured-body { padding: 28px 24px; }
+}
+@media (max-width: 600px) {
+  .activities-grid { grid-template-columns: 1fr; }
+  .newsletter-form { flex-direction: column; }
+  .newsletter-form button { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="Accueil.html">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Soeurs Bedj Logo" loading="eager"
+             onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'8\' fill=\'%231F5F8B\'/><text x=\'24\' y=\'30\' text-anchor=\'middle\' fill=\'white\' font-size=\'12\' font-weight=\'bold\'>EPH</text></svg>'"/>
+        <div class="nav-logo-text">
+          <span class="logo-main">EPH Soeurs Bedj</span>
+          <span class="logo-sub">Chlef — الشلف</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="Accueil.html">Accueil</a>
+        <a class="nav-link" href="Presentation.html">Présentation</a>
+        <a class="nav-link" href="Services.html">Services</a>
+        <a class="nav-link" href="Medecin.html">Médecins</a>
+        <a class="nav-link active" href="Activites.html">Activités</a>
+        <a class="nav-link" href="Contact.html">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" onclick="toggleLang()">
+            <span class="lang-flag" id="activeLangFlag">🇫🇷</span>
+            <span id="activeLangLabel">FR</span>
+            <i class="fa fa-chevron-down" style="font-size:0.6rem;"></i>
+          </button>
+          <div class="lang-menu">
+            <div class="lang-option active" onclick="setLang('fr','🇫🇷','FR')"><span class="lang-flag">🇫🇷</span> Français</div>
+            <div class="lang-option" onclick="setLang('ar','🇩🇿','AR')"><span class="lang-flag">🇩🇿</span> العربية</div>
+            <div class="lang-option" onclick="setLang('en','🇬🇧','EN')"><span class="lang-flag">🇬🇧</span> English</div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="Accueil.html" onclick="closeMobile()">🏠 Accueil</a>
+  <a class="mobile-link" href="Presentation.html" onclick="closeMobile()">🏥 Présentation</a>
+  <a class="mobile-link" href="Services.html" onclick="closeMobile()">⚕️ Services</a>
+  <a class="mobile-link" href="Medecin.html" onclick="closeMobile()">👨‍⚕️ Médecins</a>
+  <a class="mobile-link active" href="Activites.html" onclick="closeMobile()">📰 Activités</a>
+  <a class="mobile-link" href="Contact.html" onclick="closeMobile()">📩 Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge"><i class="fa fa-newspaper"></i> Blog & Actualités</div>
+    <h1>Activités & Événements</h1>
+    <p>Les dernières nouvelles, événements et initiatives de l'EPH Soeurs Bedj Chlef</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="activities-main">
+  <div class="container">
+
+    <!-- Featured -->
+    <div class="featured-article reveal">
+      <div class="featured-img">
+        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=80" alt="Article vedette" loading="lazy"/>
+        <span class="featured-cat">À la une</span>
+      </div>
+      <div class="featured-body">
+        <div class="featured-meta">
+          <span><i class="fa fa-calendar"></i> 15 Avril 2025</span>
+          <span><i class="fa fa-user"></i> Dr. Khelil Fatima</span>
+          <span><i class="fa fa-tag"></i> Santé Publique</span>
+        </div>
+        <h2>Journée nationale de sensibilisation au cancer du sein — Plus de 200 femmes dépistées à Chlef</h2>
+        <p>L'EPH Soeurs Bedj a organisé une journée de dépistage gratuit et de sensibilisation au cancer du sein, réunissant plus de 200 femmes de la région. Des consultations gratuites, des mammographies et des séances d'information ont été proposées tout au long de la journée...</p>
+        <a class="read-more" href="#" onclick="openModal(0)">Lire l'article complet <i class="fa fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterActs('all',this)">Toutes</button>
+      <button class="filter-btn" onclick="filterActs('sante',this)">Santé Publique</button>
+      <button class="filter-btn" onclick="filterActs('formation',this)">Formation</button>
+      <button class="filter-btn" onclick="filterActs('infra',this)">Infrastructure</button>
+      <button class="filter-btn" onclick="filterActs('prevention',this)">Prévention</button>
+      <button class="filter-btn" onclick="filterActs('communaute',this)">Communauté</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="activities-grid" id="activitiesGrid">
+
+      <div class="activity-card reveal" data-cat="formation">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80" alt="Formation" loading="lazy"/>
+          <span class="ac-cat cat-formation">Formation</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 2 Mars 2025</span>
+            <span><i class="fa fa-user"></i> Direction</span>
+          </div>
+          <h3>Formation continue du personnel médical 2025</h3>
+          <p>Une session de formation intensive a été organisée pour le perfectionnement des compétences du personnel médical et paramédical, couvrant les nouvelles techniques et les protocoles d'urgence.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(1)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card reveal" data-cat="infra">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=600&q=80" alt="Bloc opératoire" loading="lazy"/>
+          <span class="ac-cat cat-infra">Infrastructure</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 18 Fév 2025</span>
+            <span><i class="fa fa-user"></i> Direction</span>
+          </div>
+          <h3>Inauguration du nouveau bloc opératoire modernisé</h3>
+          <p>Notre établissement a inauguré un nouveau bloc opératoire équipé des dernières technologies médicales, permettant d'améliorer la qualité et la sécurité des interventions chirurgicales.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(2)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card reveal" data-cat="prevention">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600&q=80" alt="Vaccination" loading="lazy"/>
+          <span class="ac-cat cat-prevention">Prévention</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 10 Jan 2025</span>
+            <span><i class="fa fa-user"></i> Dr. Benali</span>
+          </div>
+          <h3>Campagne de vaccination contre la grippe saisonnière</h3>
+          <p>Une campagne de vaccination gratuite a été lancée à l'EPH Soeurs Bedj pour protéger la population de Chlef, ciblant en priorité les personnes âgées et les malades chroniques.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(3)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card reveal" data-cat="communaute">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80" alt="Portes ouvertes" loading="lazy"/>
+          <span class="ac-cat cat-communaute">Communauté</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 5 Déc 2024</span>
+            <span><i class="fa fa-user"></i> Direction RH</span>
+          </div>
+          <h3>Journée portes ouvertes de l'EPH Soeurs Bedj Chlef</h3>
+          <p>L'établissement a organisé une journée portes ouvertes permettant au grand public de découvrir les différents services et de rencontrer les équipes médicales et paramédicales.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(4)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card reveal" data-cat="formation">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80" alt="Symposium" loading="lazy"/>
+          <span class="ac-cat cat-formation">Formation</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 20 Nov 2024</span>
+            <span><i class="fa fa-user"></i> Dr. Mansour</span>
+          </div>
+          <h3>Symposium médical régional sur les maladies chroniques</h3>
+          <p>L'EPH a accueilli un symposium médical régional réunissant des spécialistes de plusieurs wilayas pour discuter des nouvelles approches thérapeutiques dans la prise en charge des maladies chroniques.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(5)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card reveal" data-cat="sante">
+        <div class="ac-img">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="Diabète" loading="lazy"/>
+          <span class="ac-cat cat-sante">Santé Publique</span>
+        </div>
+        <div class="ac-body">
+          <div class="ac-meta">
+            <span><i class="fa fa-calendar"></i> 14 Nov 2024</span>
+            <span><i class="fa fa-user"></i> Service Médical</span>
+          </div>
+          <h3>Journée mondiale du diabète — Dépistage gratuit à l'EPH</h3>
+          <p>À l'occasion de la journée mondiale du diabète, l'EPH Soeurs Bedj a organisé des séances de dépistage gratuit et de sensibilisation pour les habitants de la wilaya de Chlef.</p>
+          <div class="ac-footer">
+            <a class="ac-link" href="#" onclick="openModal(6)">Lire la suite <i class="fa fa-arrow-right"></i></a>
+            <div class="ac-share">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination reveal">
+      <button class="page-btn arrow" aria-label="Précédent"><i class="fa fa-chevron-left"></i></button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <span style="color:var(--text-muted);padding:0 4px;">...</span>
+      <button class="page-btn">8</button>
+      <button class="page-btn arrow" aria-label="Suivant"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="container">
+    <div class="newsletter-inner reveal">
+      <div class="badge" style="margin:0 auto 16px;background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2);"><i class="fa fa-bell"></i> Newsletter</div>
+      <h2>Restez informé de nos actualités</h2>
+      <p>Inscrivez-vous à notre newsletter pour recevoir les dernières nouvelles et événements de l'EPH Soeurs Bedj directement dans votre boîte mail.</p>
+      <div class="newsletter-form">
+        <input type="email" id="newsletterEmail" placeholder="Votre adresse email..." aria-label="Email newsletter"/>
+        <button onclick="subscribeNewsletter()"><i class="fa fa-paper-plane"></i> S'inscrire</button>
+      </div>
+      <p style="font-size:0.76rem;opacity:0.55;margin-top:12px;">Aucun spam. Désabonnement possible à tout moment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE MODAL -->
+<div class="article-modal" id="articleModal">
+  <div class="article-modal-inner">
+    <button class="modal-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
+    <div class="modal-img"><img id="modalImg" src="" alt="Article"/></div>
+    <div class="modal-body">
+      <div class="modal-meta" id="modalMeta"></div>
+      <h2 id="modalTitle"></h2>
+      <div id="modalContent"></div>
+      <a class="btn btn-primary" href="Contact.html" style="margin-top:10px;display:inline-flex;"><i class="fa fa-envelope"></i> Nous contacter</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Logo" loading="lazy" style="filter:brightness(0) invert(1);"
+             onerror="this.onerror=null;this.style.display='none';"/>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj Chlef — votre partenaire de santé au service de toute la région de Chlef.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="footer-social" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="footer-social" href="mailto:ephsoeursbedjchlef02@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Accueil.html">Accueil</a>
+          <a class="footer-link" href="Presentation.html">Présentation</a>
+          <a class="footer-link" href="Services.html">Services</a>
+          <a class="footer-link" href="Medecin.html">Médecins</a>
+          <a class="footer-link" href="Activites.html">Activités</a>
+          <a class="footer-link" href="Contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Catégories</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Santé Publique</a>
+          <a class="footer-link" href="#">Formations</a>
+          <a class="footer-link" href="#">Infrastructure</a>
+          <a class="footer-link" href="#">Prévention</a>
+          <a class="footer-link" href="#">Communauté</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-items">
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>+213 28 58 49 94</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>ephsoeursbedjchlef02@gmail.com</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Urgences: 24h/24, 7j/7</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Recherche rapide</p>
+          <div class="footer-search">
+            <input type="text" placeholder="Chercher..." id="footer-search-input" onkeydown="footerSearch(event)"/>
+            <button onclick="footerSearch({key:'Enter'})" aria-label="Rechercher"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EPH Soeurs Bedj Chlef. Tous droits réservés.</p>
+      <div class="theme-toggle">
+        <span>Mode sombre</span>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Thème"></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+/* Articles data */
+const articles = [
+  {
+    img: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 15 Avril 2025</span><span><i class="fa fa-user"></i> Dr. Khelil Fatima</span><span><i class="fa fa-tag"></i> Santé Publique</span>',
+    title: 'Journée nationale de sensibilisation au cancer du sein — Plus de 200 femmes dépistées à Chlef',
+    content: `<p>L'EPH Soeurs Bedj Chlef a organisé, en partenariat avec la direction de la santé de la wilaya, une journée complète de dépistage gratuit et de sensibilisation au cancer du sein, dans le cadre de la campagne nationale d'octobre rose.</p><p>Plus de 200 femmes de la région de Chlef ont bénéficié de consultations gratuites par des médecins spécialistes en gynécologie et en oncologie, ainsi que d'examens de mammographie et d'échographie mammaire. Des séances d'information et de sensibilisation ont également été organisées tout au long de la journée.</p><p>Le Dr. Khelil Fatima, responsable du service de gynécologie, a déclaré : "Le dépistage précoce est la clé de la guérison. Nous encourageons toutes les femmes à consulter régulièrement et à ne pas négliger les signaux d'alerte."</p><p>Cette initiative s'inscrit dans la politique de prévention et de promotion de la santé menée par l'établissement au service de la population de la wilaya de Chlef.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 2 Mars 2025</span><span><i class="fa fa-user"></i> Direction Médicale</span>',
+    title: 'Formation continue du personnel médical et paramédical 2025',
+    content: `<p>Dans le cadre de l'amélioration continue de la qualité des soins, l'EPH Soeurs Bedj a organisé une session de formation intensive destinée à l'ensemble du personnel médical et paramédical de l'établissement.</p><p>Cette formation a couvert plusieurs thématiques essentielles : les nouvelles techniques chirurgicales mini-invasives, les protocoles de réanimation cardio-pulmonaire mis à jour, la prise en charge des polytraumatisés, ainsi que les bonnes pratiques en matière d'hygiène hospitalière.</p><p>Plus de 120 professionnels de santé ont participé à ces sessions animées par des formateurs spécialisés venus de plusieurs centres hospitaliers universitaires du pays.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 18 Fév 2025</span><span><i class="fa fa-user"></i> Direction Générale</span>',
+    title: 'Inauguration du nouveau bloc opératoire modernisé',
+    content: `<p>L'EPH Soeurs Bedj Chlef a procédé à l'inauguration officielle de son nouveau bloc opératoire entièrement rénové et équipé des dernières technologies médicales disponibles.</p><p>Ce nouveau bloc comprend 4 salles d'opération entièrement climatisées et stérilisées, dotées de tables opératoires de dernière génération, de systèmes d'anesthésie avancés, d'éclairages chirurgicaux à LED et de moniteurs multiparamètres.</p><p>Cette modernisation permettra d'augmenter la capacité opératoire de l'établissement et d'améliorer significativement la sécurité et la qualité des interventions chirurgicales réalisées au profit de la population de la wilaya de Chlef et des wilayas limitrophes.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 10 Jan 2025</span><span><i class="fa fa-user"></i> Dr. Benali Mohammed</span>',
+    title: 'Campagne de vaccination contre la grippe saisonnière 2025',
+    content: `<p>L'EPH Soeurs Bedj a lancé sa campagne annuelle de vaccination contre la grippe saisonnière, en collaboration avec les services de la Direction de la Santé de la Wilaya de Chlef.</p><p>La campagne cible en priorité les personnes âgées de plus de 65 ans, les malades chroniques (diabète, insuffisance rénale, maladies cardiovasculaires, pathologies respiratoires), le personnel de santé, ainsi que les femmes enceintes. La vaccination est gratuite pour toutes les personnes éligibles.</p><p>Des équipes mobiles ont également été déployées dans plusieurs communes de la wilaya pour faciliter l'accès à la vaccination pour les populations éloignées.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 5 Déc 2024</span><span><i class="fa fa-user"></i> Direction RH</span>',
+    title: 'Journée portes ouvertes de l\'EPH Soeurs Bedj Chlef 2024',
+    content: `<p>L'EPH Soeurs Bedj Chlef a organisé sa journée annuelle portes ouvertes, offrant au grand public l'opportunité de visiter les différents services et départements de l'établissement et de rencontrer les équipes médicales et administratives.</p><p>Des centaines de visiteurs ont pu découvrir les équipements modernisés, assister à des démonstrations de techniques médicales, et bénéficier de consultations de dépistage gratuites dans plusieurs spécialités. Des ateliers de sensibilisation à l'hygiène et à la prévention des maladies ont également été proposés.</p><p>Cette journée reflète l'engagement de l'établissement envers la transparence et le renforcement du lien de confiance avec la communauté locale.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 20 Nov 2024</span><span><i class="fa fa-user"></i> Dr. Mansour Karim</span>',
+    title: 'Symposium médical régional sur les maladies chroniques',
+    content: `<p>L'EPH Soeurs Bedj Chlef a accueilli un symposium médical régional de deux jours sur la prise en charge des maladies chroniques, réunissant des spécialistes de plusieurs wilayas de l'ouest algérien.</p><p>Les discussions ont porté sur les nouvelles approches thérapeutiques dans la gestion du diabète de type 2, de l'hypertension artérielle, des maladies rénales chroniques et des pathologies cardiovasculaires. Des cas cliniques complexes ont également été présentés et discutés dans une approche multidisciplinaire.</p>`
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80',
+    meta: '<span><i class="fa fa-calendar"></i> 14 Nov 2024</span><span><i class="fa fa-user"></i> Service Médical</span>',
+    title: 'Journée mondiale du diabète — Dépistage gratuit à l\'EPH',
+    content: `<p>À l'occasion de la journée mondiale du diabète (14 novembre), l'EPH Soeurs Bedj Chlef a organisé une journée de dépistage gratuit et de sensibilisation au diabète, ouverte à toute la population de la wilaya de Chlef.</p><p>Des mesures de glycémie capillaire, des consultations médicales gratuites et des séances d'éducation thérapeutique ont été proposées tout au long de la journée. Les participants ont également reçu des informations sur les facteurs de risque, la prévention et les bonnes habitudes alimentaires pour lutter contre le diabète.</p><p>Plus de 300 personnes ont bénéficié de ce dépistage gratuit, dont plusieurs cas de diabète méconnus ont été détectés et orientés vers une prise en charge spécialisée.</p>`
+  }
+];
+
+function openModal(idx) {
+  const a = articles[idx];
+  if (!a) return;
+  document.getElementById('modalImg').src = a.img;
+  document.getElementById('modalMeta').innerHTML = a.meta;
+  document.getElementById('modalTitle').textContent = a.title;
+  document.getElementById('modalContent').innerHTML = a.content;
+  document.getElementById('articleModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+function closeModal() {
+  document.getElementById('articleModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('articleModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function filterActs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.activity-card').forEach(card => {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function subscribeNewsletter() {
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Veuillez saisir une adresse email valide.');
+    return;
+  }
+  document.getElementById('newsletterEmail').value = '';
+  alert('Merci ! Vous êtes désormais inscrit à notre newsletter.');
+}
+</script>
+</body>
+</html>

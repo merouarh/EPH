@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Médecins — EPH Soeurs Bedj Chlef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ===== MEDECIN PAGE ===== */
+.doctors-main { padding: 72px 0; background: var(--bg); }
+
+/* Search bar */
+.search-bar-wrap { max-width: 480px; margin: 0 auto 40px; position: relative; }
+.search-bar-wrap input { width: 100%; padding: 14px 48px 14px 20px; border-radius: 50px; border: 2px solid var(--border); background: var(--card-bg); color: var(--text); font-size: 0.92rem; outline: none; transition: border-color var(--transition); }
+.search-bar-wrap input:focus { border-color: var(--primary); }
+.search-bar-wrap button { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--primary); background: none; border: none; cursor: pointer; font-size: 1rem; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+.filter-btn { padding: 9px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-muted); background: var(--card-bg); cursor: pointer; transition: all var(--transition); }
+.filter-btn:hover, .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Grid */
+.doctors-page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 26px; }
+
+/* Card */
+.doctor-page-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: all var(--transition); }
+.doctor-page-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.dp-img { height: 260px; overflow: hidden; position: relative; }
+.dp-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.5s ease; display: block; }
+.doctor-page-card:hover .dp-img img { transform: scale(1.05); }
+.dp-tag { position: absolute; top: 14px; right: 14px; background: var(--teal); color: #fff; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.dp-info { padding: 22px; }
+.dp-info h3 { font-family: 'Playfair Display', serif; font-size: 1.08rem; font-weight: 700; margin-bottom: 4px; }
+.dp-specialty { color: var(--teal); font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.dp-divider { height: 1px; background: var(--border); margin: 14px 0; }
+.dp-meta { display: flex; flex-direction: column; gap: 7px; }
+.dp-meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); }
+.dp-meta-item i { color: var(--primary); width: 14px; flex-shrink: 0; font-size: 0.8rem; }
+.dp-actions { display: flex; gap: 10px; margin-top: 16px; }
+.dp-btn { flex: 1; padding: 10px; border-radius: 8px; text-align: center; font-size: 0.82rem; font-weight: 600; transition: all var(--transition); cursor: pointer; }
+.dp-btn-primary { background: var(--primary); color: #fff; }
+.dp-btn-primary:hover { background: var(--secondary); }
+.dp-btn-outline { border: 1.5px solid var(--border); color: var(--text-muted); background: none; }
+.dp-btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+/* Info banner */
+.doctors-info { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; padding: 56px 0; margin-top: 72px; }
+.doctors-info-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.doctors-info h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2rem); font-weight: 700; margin-bottom: 14px; }
+.doctors-info p { font-size: 0.92rem; opacity: 0.85; line-height: 1.8; margin-bottom: 22px; }
+.doctors-info-features { display: flex; flex-direction: column; gap: 14px; }
+.di-feature { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; }
+.di-feature i { color: #3FC1A9; font-size: 1rem; width: 18px; }
+.di-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.di-stat { background: rgba(255,255,255,0.1); border-radius: 14px; padding: 20px; text-align: center; }
+.di-stat .num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #3FC1A9; }
+.di-stat .lbl { font-size: 0.78rem; opacity: 0.75; margin-top: 4px; }
+
+/* No results */
+.no-results { text-align: center; padding: 60px 20px; color: var(--text-muted); display: none; }
+.no-results i { font-size: 3rem; margin-bottom: 16px; display: block; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .doctors-info-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 600px) {
+  .doctors-page-grid { grid-template-columns: 1fr 1fr; }
+  .dp-img { height: 200px; }
+  .di-stats { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .doctors-page-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="Accueil.html">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Soeurs Bedj Logo" loading="eager"
+             onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'8\' fill=\'%231F5F8B\'/><text x=\'24\' y=\'30\' text-anchor=\'middle\' fill=\'white\' font-size=\'12\' font-weight=\'bold\'>EPH</text></svg>'"/>
+        <div class="nav-logo-text">
+          <span class="logo-main">EPH Soeurs Bedj</span>
+          <span class="logo-sub">Chlef — الشلف</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="Accueil.html">Accueil</a>
+        <a class="nav-link" href="Presentation.html">Présentation</a>
+        <a class="nav-link" href="Services.html">Services</a>
+        <a class="nav-link active" href="Medecin.html">Médecins</a>
+        <a class="nav-link" href="Activites.html">Activités</a>
+        <a class="nav-link" href="Contact.html">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" onclick="toggleLang()">
+            <span class="lang-flag" id="activeLangFlag">🇫🇷</span>
+            <span id="activeLangLabel">FR</span>
+            <i class="fa fa-chevron-down" style="font-size:0.6rem;"></i>
+          </button>
+          <div class="lang-menu">
+            <div class="lang-option active" onclick="setLang('fr','🇫🇷','FR')"><span class="lang-flag">🇫🇷</span> Français</div>
+            <div class="lang-option" onclick="setLang('ar','🇩🇿','AR')"><span class="lang-flag">🇩🇿</span> العربية</div>
+            <div class="lang-option" onclick="setLang('en','🇬🇧','EN')"><span class="lang-flag">🇬🇧</span> English</div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="Accueil.html" onclick="closeMobile()">🏠 Accueil</a>
+  <a class="mobile-link" href="Presentation.html" onclick="closeMobile()">🏥 Présentation</a>
+  <a class="mobile-link" href="Services.html" onclick="closeMobile()">⚕️ Services</a>
+  <a class="mobile-link active" href="Medecin.html" onclick="closeMobile()">👨‍⚕️ Médecins</a>
+  <a class="mobile-link" href="Contact.html" onclick="closeMobile()">📩 Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge"><i class="fa fa-user-doctor"></i> Équipe Médicale</div>
+    <h1>Nos Médecins Spécialistes</h1>
+    <p>Une équipe médicale de haut niveau, dévoués à votre santé et votre bien-être</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="doctors-main">
+  <div class="container">
+    <!-- Search -->
+    <div class="search-bar-wrap">
+      <input type="text" id="doctorSearch" placeholder="Rechercher un médecin ou une spécialité..." oninput="searchDoctors(this.value)"/>
+      <button aria-label="Rechercher"><i class="fa fa-search"></i></button>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterDocs('all',this)">Tous</button>
+      <button class="filter-btn" onclick="filterDocs('chirurgie',this)">Chirurgie</button>
+      <button class="filter-btn" onclick="filterDocs('cardiologie',this)">Cardiologie</button>
+      <button class="filter-btn" onclick="filterDocs('neurologie',this)">Neurologie</button>
+      <button class="filter-btn" onclick="filterDocs('pediatrie',this)">Pédiatrie</button>
+      <button class="filter-btn" onclick="filterDocs('gynecologie',this)">Gynécologie</button>
+      <button class="filter-btn" onclick="filterDocs('orthopedie',this)">Orthopédie</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="doctors-page-grid" id="doctorsGrid">
+
+      <div class="doctor-page-card reveal" data-cat="chirurgie" data-name="Mohammed Benali Chirurgien Général">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt="Dr. Mohammed Benali" loading="lazy"/>
+          <span class="dp-tag">Chirurgie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Mohammed Benali</h3>
+          <div class="dp-specialty">Chirurgien Général</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 15 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Lun – Ven, 08h–16h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Mohammed Benali — Chirurgien Général — 15 ans d\'expérience. Spécialisé en chirurgie digestive et laparoscopique.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="cardiologie" data-name="Fatima Khelil Cardiologue">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" alt="Dr. Fatima Khelil" loading="lazy"/>
+          <span class="dp-tag">Cardiologie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Fatima Khelil</h3>
+          <div class="dp-specialty">Cardiologue</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 12 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Mar – Sam, 08h–14h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Fatima Khelil — Cardiologue — 12 ans d\'expérience. Experte en échocardiographie et troubles du rythme.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="neurologie" data-name="Karim Mansour Neurologue">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&q=80" alt="Dr. Karim Mansour" loading="lazy"/>
+          <span class="dp-tag">Neurologie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Karim Mansour</h3>
+          <div class="dp-specialty">Neurologue</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 10 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Lun – Jeu, 09h–17h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Karim Mansour — Neurologue — 10 ans d\'expérience. Spécialiste des AVC, épilepsie et pathologies neurodégénératives.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="pediatrie" data-name="Amira Bouzid Pédiatre">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" alt="Dr. Amira Bouzid" loading="lazy"/>
+          <span class="dp-tag">Pédiatrie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Amira Bouzid</h3>
+          <div class="dp-specialty">Pédiatre</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 8 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Lun – Ven, 08h–15h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Amira Bouzid — Pédiatre — 8 ans d\'expérience. Spécialisée en pédiatrie générale, néonatologie et vaccination.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="orthopedie" data-name="Yacine Hadj Orthopédiste">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80" alt="Dr. Yacine Hadj" loading="lazy"/>
+          <span class="dp-tag">Orthopédie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Yacine Hadj</h3>
+          <div class="dp-specialty">Orthopédiste-Traumatologue</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 18 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Lun – Mer, 08h–16h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Yacine Hadj — Orthopédiste — 18 ans d\'expérience. Spécialisé en chirurgie osseuse, prothèses articulaires et traumatologie.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="gynecologie" data-name="Nadia Zerrouki Gynécologue">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80" alt="Dr. Nadia Zerrouki" loading="lazy"/>
+          <span class="dp-tag">Gynécologie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Nadia Zerrouki</h3>
+          <div class="dp-specialty">Gynécologue-Obstétricienne</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 14 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Mar – Sam, 09h–16h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Nadia Zerrouki — Gynécologue-Obstétricienne — 14 ans d\'expérience. Experte en grossesse à haut risque et chirurgie gynécologique.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="chirurgie" data-name="Omar Benamara Anesthésiste">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&q=80" alt="Dr. Omar Benamara" loading="lazy"/>
+          <span class="dp-tag">Anesthésie</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Omar Benamara</h3>
+          <div class="dp-specialty">Anesthésiste-Réanimateur</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 11 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Lun – Ven, 07h–15h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Omar Benamara — Anesthésiste-Réanimateur — 11 ans d\'expérience. Spécialiste en réanimation chirurgicale et soins intensifs.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-page-card reveal" data-cat="cardiologie" data-name="Safia Moulai Interniste">
+        <div class="dp-img">
+          <img src="https://images.unsplash.com/photo-1591604021695-0c69b7c05981?w=400&q=80" alt="Dr. Safia Moulai" loading="lazy"/>
+          <span class="dp-tag">Médecine Interne</span>
+        </div>
+        <div class="dp-info">
+          <h3>Dr. Safia Moulai</h3>
+          <div class="dp-specialty">Médecin Interniste</div>
+          <div class="dp-divider"></div>
+          <div class="dp-meta">
+            <div class="dp-meta-item"><i class="fa fa-graduation-cap"></i> 9 ans d'expérience</div>
+            <div class="dp-meta-item"><i class="fa fa-clock"></i> Dim – Jeu, 08h–16h</div>
+            <div class="dp-meta-item"><i class="fa fa-language"></i> Arabe, Français</div>
+          </div>
+          <div class="dp-actions">
+            <a class="dp-btn dp-btn-primary" href="Contact.html">Prendre RDV</a>
+            <button class="dp-btn dp-btn-outline" onclick="showInfo('Dr. Safia Moulai — Médecin Interniste — 9 ans d\'expérience. Spécialisée en diabétologie, rhumatologie et maladies chroniques.')">Profil</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="no-results" id="noResults">
+      <i class="fa fa-user-doctor"></i>
+      <h3>Aucun médecin trouvé</h3>
+      <p>Essayez un autre nom ou une autre spécialité</p>
+    </div>
+  </div>
+
+  <!-- Info section -->
+  <div class="doctors-info">
+    <div class="container">
+      <div class="doctors-info-inner">
+        <div class="reveal-left">
+          <div class="badge" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.2);margin-bottom:16px;"><i class="fa fa-shield-halved"></i> Notre Équipe</div>
+          <h2>Des professionnels à votre écoute</h2>
+          <p>Notre équipe médicale est composée de spécialistes hautement qualifiés, engagés à fournir des soins de la plus haute qualité dans un environnement respectueux et humain.</p>
+          <div class="doctors-info-features">
+            <div class="di-feature"><i class="fa fa-check-circle"></i><span>Médecins certifiés et reconnus</span></div>
+            <div class="di-feature"><i class="fa fa-check-circle"></i><span>Formation continue et mise à jour des pratiques</span></div>
+            <div class="di-feature"><i class="fa fa-check-circle"></i><span>Disponibilité et écoute des patients</span></div>
+            <div class="di-feature"><i class="fa fa-check-circle"></i><span>Coordination multidisciplinaire</span></div>
+          </div>
+          <a class="btn btn-white" href="Contact.html" style="margin-top:24px;display:inline-flex;"><i class="fa fa-phone"></i> Prendre rendez-vous</a>
+        </div>
+        <div class="reveal-right">
+          <div class="di-stats">
+            <div class="di-stat"><div class="num">85+</div><div class="lbl">Médecins spécialistes</div></div>
+            <div class="di-stat"><div class="num">12</div><div class="lbl">Spécialités médicales</div></div>
+            <div class="di-stat"><div class="num">35+</div><div class="lbl">Ans d'expérience cumulés</div></div>
+            <div class="di-stat"><div class="num">98%</div><div class="lbl">Satisfaction patients</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Profile Modal -->
+<div id="profileModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card-bg);border-radius:18px;padding:32px;max-width:440px;width:100%;position:relative;">
+    <button onclick="document.getElementById('profileModal').style.display='none'" style="position:absolute;top:16px;right:16px;font-size:1.2rem;color:var(--text-muted);cursor:pointer;background:none;border:none;">✕</button>
+    <i class="fa fa-user-doctor" style="font-size:2rem;color:var(--primary);margin-bottom:16px;display:block;"></i>
+    <p id="profileText" style="font-size:0.92rem;color:var(--text);line-height:1.75;"></p>
+    <a class="btn btn-primary" href="Contact.html" style="margin-top:20px;width:100%;justify-content:center;"><i class="fa fa-calendar-check"></i> Prendre rendez-vous</a>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Logo" loading="lazy"
+             style="filter:brightness(0) invert(1);"
+             onerror="this.onerror=null;this.style.display='none';"/>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj Chlef — votre partenaire de santé au service de toute la région de Chlef.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="footer-social" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="footer-social" href="mailto:ephsoeursbedjchlef02@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Accueil.html">Accueil</a>
+          <a class="footer-link" href="Presentation.html">Présentation</a>
+          <a class="footer-link" href="Services.html">Services</a>
+          <a class="footer-link" href="Medecin.html">Médecins</a>
+          <a class="footer-link" href="Contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Spécialités</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Chirurgie Générale</a>
+          <a class="footer-link" href="#">Cardiologie</a>
+          <a class="footer-link" href="#">Neurologie</a>
+          <a class="footer-link" href="#">Pédiatrie</a>
+          <a class="footer-link" href="#">Gynécologie</a>
+          <a class="footer-link" href="#">Orthopédie</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-items">
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>+213 28 58 49 94</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>ephsoeursbedjchlef02@gmail.com</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Urgences: 24h/24, 7j/7</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Recherche rapide</p>
+          <div class="footer-search">
+            <input type="text" placeholder="Chercher..." id="footer-search-input" onkeydown="footerSearch(event)"/>
+            <button onclick="footerSearch({key:'Enter'})" aria-label="Rechercher"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EPH Soeurs Bedj Chlef. Tous droits réservés.</p>
+      <div class="theme-toggle">
+        <span>Mode sombre</span>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Thème"></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+function filterDocs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let visible = 0;
+  document.querySelectorAll('.doctor-page-card').forEach(card => {
+    const cardCat = card.getAttribute('data-cat');
+    if (cat === 'all' || cardCat === cat) {
+      card.style.display = ''; visible++;
+      setTimeout(() => card.classList.add('visible'), 50);
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function searchDoctors(q) {
+  q = q.toLowerCase().trim();
+  let visible = 0;
+  document.querySelectorAll('.doctor-page-card').forEach(card => {
+    const name = (card.getAttribute('data-name') || '').toLowerCase();
+    if (!q || name.includes(q)) {
+      card.style.display = ''; visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function showInfo(text) {
+  document.getElementById('profileText').textContent = text;
+  document.getElementById('profileModal').style.display = 'flex';
+}
+
+document.getElementById('profileModal').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+</script>
+</body>
+</html>

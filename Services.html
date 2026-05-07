@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Services — EPH Soeurs Bedj Chlef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ===== SERVICES PAGE ===== */
+.services-main { padding: 72px 0; background: var(--bg); }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 52px; }
+.filter-btn { padding: 9px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; border: 1.5px solid var(--border); color: var(--text-muted); background: var(--card-bg); cursor: pointer; transition: all var(--transition); }
+.filter-btn:hover, .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* Services grid */
+.services-page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 26px; }
+.service-page-card {
+  background: var(--card-bg); border-radius: 18px; padding: 34px 28px; border: 1px solid var(--border);
+  transition: all var(--transition); position: relative; overflow: hidden;
+}
+.service-page-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--teal)); transform: scaleX(0); transition: transform var(--transition); }
+.service-page-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.service-page-card:hover::after { transform: scaleX(1); }
+.sp-icon {
+  width: 62px; height: 62px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(31,95,139,0.1), rgba(47,174,155,0.1));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: var(--primary); margin-bottom: 22px; transition: all var(--transition);
+}
+.service-page-card:hover .sp-icon { background: linear-gradient(135deg, var(--primary), var(--teal)); color: #fff; transform: scale(1.05); }
+.service-page-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+.service-page-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.72; margin-bottom: 14px; }
+.service-page-card ul { display: flex; flex-direction: column; gap: 6px; }
+.service-page-card ul li { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-muted); }
+.service-page-card ul li i { color: var(--teal); font-size: 0.72rem; flex-shrink: 0; }
+.service-tag { display: inline-block; padding: 3px 10px; border-radius: 50px; font-size: 0.7rem; font-weight: 600; background: rgba(47,174,155,0.1); color: var(--teal); border: 1px solid rgba(47,174,155,0.2); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Emergency banner */
+.emergency-banner {
+  background: linear-gradient(135deg, #c0392b, #962d22);
+  color: #fff; border-radius: 18px; padding: 32px 36px;
+  display: flex; align-items: center; gap: 24px; margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+.emergency-banner i { font-size: 2.5rem; flex-shrink: 0; }
+.emergency-banner h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+.emergency-banner p { font-size: 0.9rem; opacity: 0.88; }
+.emergency-banner a { background: #fff; color: #c0392b; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.9rem; white-space: nowrap; transition: all var(--transition); display: inline-flex; align-items: center; gap: 8px; margin-left: auto; }
+.emergency-banner a:hover { background: #f8f8f8; transform: translateY(-2px); }
+
+/* CTA */
+.services-cta { background: var(--bg2); padding: 72px 0; text-align: center; }
+.services-cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 700; margin-bottom: 14px; }
+.services-cta p { color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin: 0 auto 28px; line-height: 1.7; }
+.services-cta .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 768px) {
+  .services-page-grid { grid-template-columns: 1fr; }
+  .emergency-banner { flex-direction: column; text-align: center; }
+  .emergency-banner a { margin-left: 0; width: 100%; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .services-page-grid { grid-template-columns: 1fr; }
+  .filter-bar { gap: 8px; }
+  .filter-btn { padding: 8px 14px; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="Accueil.html">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Soeurs Bedj Logo" loading="eager"
+             onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'8\' fill=\'%231F5F8B\'/><text x=\'24\' y=\'30\' text-anchor=\'middle\' fill=\'white\' font-size=\'12\' font-weight=\'bold\'>EPH</text></svg>'"/>
+        <div class="nav-logo-text">
+          <span class="logo-main">EPH Soeurs Bedj</span>
+          <span class="logo-sub">Chlef — الشلف</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="Accueil.html">Accueil</a>
+        <a class="nav-link" href="Presentation.html">Présentation</a>
+        <a class="nav-link active" href="Services.html">Services</a>
+        <a class="nav-link" href="Medecin.html">Médecins</a>
+        <a class="nav-link" href="Activites.html">Activités</a>
+        <a class="nav-link" href="Contact.html">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" onclick="toggleLang()">
+            <span class="lang-flag" id="activeLangFlag">🇫🇷</span>
+            <span id="activeLangLabel">FR</span>
+            <i class="fa fa-chevron-down" style="font-size:0.6rem;"></i>
+          </button>
+          <div class="lang-menu">
+            <div class="lang-option active" onclick="setLang('fr','🇫🇷','FR')"><span class="lang-flag">🇫🇷</span> Français</div>
+            <div class="lang-option" onclick="setLang('ar','🇩🇿','AR')"><span class="lang-flag">🇩🇿</span> العربية</div>
+            <div class="lang-option" onclick="setLang('en','🇬🇧','EN')"><span class="lang-flag">🇬🇧</span> English</div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="Accueil.html" onclick="closeMobile()">🏠 Accueil</a>
+  <a class="mobile-link" href="Presentation.html" onclick="closeMobile()">🏥 Présentation</a>
+  <a class="mobile-link active" href="Services.html" onclick="closeMobile()">⚕️ Services</a>
+  <a class="mobile-link" href="Medecin.html" onclick="closeMobile()">👨‍⚕️ Médecins</a>
+  <a class="mobile-link" href="Contact.html" onclick="closeMobile()">📩 Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge"><i class="fa fa-stethoscope"></i> Services Médicaux</div>
+    <h1>Nos Services de Santé</h1>
+    <p>Une offre de soins complète et spécialisée pour votre santé et celle de votre famille</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<section class="services-main">
+  <div class="container">
+
+    <!-- Emergency Banner -->
+    <div class="emergency-banner reveal">
+      <i class="fa fa-triangle-exclamation"></i>
+      <div>
+        <h3>Urgences Médicales — 24h/24</h3>
+        <p>Notre service des urgences est disponible en permanence pour toute situation d'urgence vitale ou médicale.</p>
+      </div>
+      <a href="tel:+213285849494"><i class="fa fa-phone"></i> +213 28 58 49 94</a>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterServices('all', this)">Tous les services</button>
+      <button class="filter-btn" onclick="filterServices('urgence', this)">Urgences</button>
+      <button class="filter-btn" onclick="filterServices('chirurgie', this)">Chirurgie</button>
+      <button class="filter-btn" onclick="filterServices('diagnostic', this)">Diagnostic</button>
+      <button class="filter-btn" onclick="filterServices('specialite', this)">Spécialités</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="services-page-grid">
+
+      <div class="service-page-card reveal" data-cat="urgence">
+        <span class="service-tag">Urgences</span>
+        <div class="sp-icon"><i class="fa fa-kit-medical"></i></div>
+        <h3>Urgences Médicales</h3>
+        <p>Service disponible 24h/24, 7j/7 pour toutes les urgences vitales et médicales, avec une prise en charge immédiate.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Triage et évaluation immédiate</li>
+          <li><i class="fa fa-check-circle"></i> SMUR et ambulances médicalisées</li>
+          <li><i class="fa fa-check-circle"></i> Réanimation et soins intensifs</li>
+          <li><i class="fa fa-check-circle"></i> Coordination inter-services</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="chirurgie">
+        <span class="service-tag">Chirurgie</span>
+        <div class="sp-icon"><i class="fa fa-scalpel"></i></div>
+        <h3>Chirurgie Générale</h3>
+        <p>Interventions chirurgicales programmées et en urgence par des chirurgiens expérimentés dans un bloc moderne.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Chirurgie digestive</li>
+          <li><i class="fa fa-check-circle"></i> Chirurgie laparoscopique</li>
+          <li><i class="fa fa-check-circle"></i> Chirurgie vasculaire</li>
+          <li><i class="fa fa-check-circle"></i> Chirurgie thoracique</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="diagnostic">
+        <span class="service-tag">Diagnostic</span>
+        <div class="sp-icon"><i class="fa fa-radiation"></i></div>
+        <h3>Radiologie & Imagerie</h3>
+        <p>Équipements d'imagerie médicale de dernière génération pour des diagnostics précis et rapides.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Radiographie numérique</li>
+          <li><i class="fa fa-check-circle"></i> Échographie Doppler</li>
+          <li><i class="fa fa-check-circle"></i> Scanner (TDM)</li>
+          <li><i class="fa fa-check-circle"></i> IRM</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="diagnostic">
+        <span class="service-tag">Diagnostic</span>
+        <div class="sp-icon"><i class="fa fa-flask"></i></div>
+        <h3>Laboratoire d'Analyses</h3>
+        <p>Analyses biologiques complètes avec résultats rapides grâce à des automates de dernière génération.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Hématologie complète</li>
+          <li><i class="fa fa-check-circle"></i> Biochimie sanguine</li>
+          <li><i class="fa fa-check-circle"></i> Microbiologie & culture</li>
+          <li><i class="fa fa-check-circle"></i> Sérologie & immunologie</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-baby"></i></div>
+        <h3>Maternité & Gynécologie</h3>
+        <p>Accompagnement complet de la grossesse, de l'accouchement et du suivi postnatal dans un cadre sécurisé.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Consultation prénatale</li>
+          <li><i class="fa fa-check-circle"></i> Salle d'accouchement équipée</li>
+          <li><i class="fa fa-check-circle"></i> Néonatologie</li>
+          <li><i class="fa fa-check-circle"></i> Suivi postnatal</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-heart"></i></div>
+        <h3>Cardiologie</h3>
+        <p>Diagnostic et traitement des maladies du cœur et des vaisseaux avec un plateau technique complet.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Électrocardiogramme (ECG)</li>
+          <li><i class="fa fa-check-circle"></i> Échocardiographie</li>
+          <li><i class="fa fa-check-circle"></i> Holter cardiaque</li>
+          <li><i class="fa fa-check-circle"></i> Épreuve d'effort</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-brain"></i></div>
+        <h3>Neurologie</h3>
+        <p>Prise en charge des maladies du système nerveux central et périphérique par des spécialistes qualifiés.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Électroencéphalogramme (EEG)</li>
+          <li><i class="fa fa-check-circle"></i> Électromyographie (EMG)</li>
+          <li><i class="fa fa-check-circle"></i> AVC et pathologies aiguës</li>
+          <li><i class="fa fa-check-circle"></i> Épilepsie & migraine</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="chirurgie">
+        <span class="service-tag">Chirurgie</span>
+        <div class="sp-icon"><i class="fa fa-bone"></i></div>
+        <h3>Orthopédie & Traumatologie</h3>
+        <p>Traitement des fractures, pathologies osseuses et articulaires avec rééducation intégrée.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Chirurgie osseuse et articulaire</li>
+          <li><i class="fa fa-check-circle"></i> Pose de prothèses</li>
+          <li><i class="fa fa-check-circle"></i> Rééducation fonctionnelle</li>
+          <li><i class="fa fa-check-circle"></i> Traumatologie sportive</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-lungs"></i></div>
+        <h3>Pneumologie</h3>
+        <p>Diagnostic et traitement des maladies respiratoires et pulmonaires avec équipements spécialisés.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Spirométrie & EFR</li>
+          <li><i class="fa fa-check-circle"></i> Fibroscopie bronchique</li>
+          <li><i class="fa fa-check-circle"></i> Allergie respiratoire</li>
+          <li><i class="fa fa-check-circle"></i> Apnée du sommeil</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-eye"></i></div>
+        <h3>Ophtalmologie</h3>
+        <p>Soins et chirurgie des yeux pour tous les troubles visuels, de l'examen au traitement.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Examen complet de la vue</li>
+          <li><i class="fa fa-check-circle"></i> Chirurgie oculaire</li>
+          <li><i class="fa fa-check-circle"></i> Glaucome & cataracte</li>
+          <li><i class="fa fa-check-circle"></i> Fond d'œil numérique</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-pills"></i></div>
+        <h3>Médecine Interne</h3>
+        <p>Consultation et suivi des maladies chroniques et systémiques par des internistes expérimentés.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Diabétologie & endocrinologie</li>
+          <li><i class="fa fa-check-circle"></i> Rhumatologie</li>
+          <li><i class="fa fa-check-circle"></i> Gastro-entérologie</li>
+          <li><i class="fa fa-check-circle"></i> Maladies auto-immunes</li>
+        </ul>
+      </div>
+
+      <div class="service-page-card reveal" data-cat="specialite">
+        <span class="service-tag">Spécialité</span>
+        <div class="sp-icon"><i class="fa fa-child-reaching"></i></div>
+        <h3>Pédiatrie</h3>
+        <p>Soins médicaux dédiés aux enfants et adolescents avec une approche douce et adaptée.</p>
+        <ul>
+          <li><i class="fa fa-check-circle"></i> Consultations de nourrissons</li>
+          <li><i class="fa fa-check-circle"></i> Suivi de croissance</li>
+          <li><i class="fa fa-check-circle"></i> Vaccination</li>
+          <li><i class="fa fa-check-circle"></i> Urgences pédiatriques</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="services-cta">
+  <div class="container reveal">
+    <div class="badge" style="margin:0 auto 16px;"><i class="fa fa-calendar-check"></i> Rendez-vous</div>
+    <h2>Besoin d'une consultation ?</h2>
+    <p>Contactez-nous pour prendre rendez-vous avec l'un de nos spécialistes ou pour toute information complémentaire.</p>
+    <div class="cta-btns">
+      <a class="btn btn-primary" href="Contact.html"><i class="fa fa-phone"></i> Prendre RDV</a>
+      <a class="btn btn-outline" href="Medecin.html"><i class="fa fa-user-doctor"></i> Voir les médecins</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Logo" loading="lazy"
+             style="filter:brightness(0) invert(1);"
+             onerror="this.onerror=null;this.style.display='none';"/>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj Chlef — votre partenaire de santé au service de toute la région de Chlef.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="footer-social" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="footer-social" href="mailto:ephsoeursbedjchlef02@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Accueil.html">Accueil</a>
+          <a class="footer-link" href="Presentation.html">Présentation</a>
+          <a class="footer-link" href="Services.html">Services</a>
+          <a class="footer-link" href="Medecin.html">Médecins</a>
+          <a class="footer-link" href="Contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Nos Services</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="#">Urgences 24h/24</a>
+          <a class="footer-link" href="#">Chirurgie Générale</a>
+          <a class="footer-link" href="#">Radiologie</a>
+          <a class="footer-link" href="#">Laboratoire</a>
+          <a class="footer-link" href="#">Maternité</a>
+          <a class="footer-link" href="#">Cardiologie</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-items">
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>+213 28 58 49 94</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>ephsoeursbedjchlef02@gmail.com</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Urgences: 24h/24, 7j/7</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Recherche rapide</p>
+          <div class="footer-search">
+            <input type="text" placeholder="Chercher..." id="footer-search-input" onkeydown="footerSearch(event)"/>
+            <button onclick="footerSearch({key:'Enter'})" aria-label="Rechercher"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EPH Soeurs Bedj Chlef. Tous droits réservés.</p>
+      <div class="theme-toggle">
+        <span>Mode sombre</span>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Thème"></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+function filterServices(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.service-page-card').forEach(card => {
+    const cardCat = card.getAttribute('data-cat');
+    if (cat === 'all' || cardCat === cat) {
+      card.style.display = '';
+      setTimeout(() => card.classList.add('visible'), 50);
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

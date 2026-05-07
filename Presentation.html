@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Présentation — EPH Soeurs Bedj Chlef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ===== PRESENTATION-SPECIFIC ===== */
+.about-sections { padding: 80px 0; background: var(--bg); }
+.about-block { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; margin-bottom: 80px; }
+.about-block:last-child { margin-bottom: 0; }
+.about-block-img { border-radius: 18px; overflow: hidden; height: 360px; box-shadow: var(--shadow); }
+.about-block-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.about-block-img:hover img { transform: scale(1.03); }
+.about-block-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,2.5vw,2rem); font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.about-block-content p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.82; margin-bottom: 14px; }
+.ar-quote { font-family: 'Noto Naskh Arabic', serif; direction: rtl; text-align: right; background: var(--bg2); padding: 16px 20px; border-radius: 10px; border-right: 4px solid var(--teal); font-size: 1rem; line-height: 1.9; color: var(--text); }
+
+/* Stats highlight */
+.stats-highlight { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 20px; }
+.stat-box { padding: 16px; background: var(--bg2); border-radius: 12px; border-left: 3px solid var(--teal); }
+.stat-box:nth-child(even) { border-left-color: var(--primary); }
+.stat-box .num { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+.stat-box:nth-child(even) .num { color: var(--teal); }
+.stat-box .lbl { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+/* Organisation */
+.about-org { background: var(--bg2); padding: 80px 0; }
+.org-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2rem); font-weight: 700; text-align: center; margin-bottom: 48px; color: var(--text); }
+.org-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 20px; }
+.org-card { background: var(--card-bg); border-radius: 14px; padding: 28px 22px; border: 1px solid var(--border); text-align: center; transition: all var(--transition); }
+.org-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--teal); }
+.org-card i { font-size: 1.8rem; color: var(--teal); margin-bottom: 14px; display: block; }
+.org-card h3 { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+.org-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Values */
+.values-section { padding: 80px 0; background: var(--bg); }
+.values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 24px; margin-top: 44px; }
+.value-card { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border-radius: 18px; padding: 32px 26px; position: relative; overflow: hidden; }
+.value-card::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+.value-card:nth-child(2) { background: linear-gradient(135deg, var(--teal), #1a8a7a); }
+.value-card:nth-child(3) { background: linear-gradient(135deg, #2C6FA3, #1a4a70); }
+.value-card:nth-child(4) { background: linear-gradient(135deg, var(--dark), #0d1c22); }
+.value-card i { font-size: 2rem; margin-bottom: 16px; display: block; opacity: 0.9; }
+.value-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.value-card p { font-size: 0.86rem; opacity: 0.85; line-height: 1.7; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-block { grid-template-columns: 1fr; gap: 32px; }
+  .about-block-img { height: 260px; }
+}
+@media (max-width: 600px) {
+  .stats-highlight { grid-template-columns: 1fr 1fr; }
+  .org-grid { grid-template-columns: 1fr 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="Accueil.html">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Soeurs Bedj Logo" loading="eager"
+             onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'8\' fill=\'%231F5F8B\'/><text x=\'24\' y=\'30\' text-anchor=\'middle\' fill=\'white\' font-size=\'12\' font-weight=\'bold\'>EPH</text></svg>'"/>
+        <div class="nav-logo-text">
+          <span class="logo-main">EPH Soeurs Bedj</span>
+          <span class="logo-sub">Chlef — الشلف</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="Accueil.html">Accueil</a>
+        <a class="nav-link active" href="Presentation.html">Présentation</a>
+        <a class="nav-link" href="Services.html">Services</a>
+        <a class="nav-link" href="Medecin.html">Médecins</a>
+        <a class="nav-link" href="Activites.html">Activités</a>
+        <a class="nav-link" href="Contact.html">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" onclick="toggleLang()">
+            <span class="lang-flag" id="activeLangFlag">🇫🇷</span>
+            <span id="activeLangLabel">FR</span>
+            <i class="fa fa-chevron-down" style="font-size:0.6rem;"></i>
+          </button>
+          <div class="lang-menu">
+            <div class="lang-option active" onclick="setLang('fr','🇫🇷','FR')"><span class="lang-flag">🇫🇷</span> Français</div>
+            <div class="lang-option" onclick="setLang('ar','🇩🇿','AR')"><span class="lang-flag">🇩🇿</span> العربية</div>
+            <div class="lang-option" onclick="setLang('en','🇬🇧','EN')"><span class="lang-flag">🇬🇧</span> English</div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="Accueil.html" onclick="closeMobile()">🏠 Accueil</a>
+  <a class="mobile-link active" href="Presentation.html" onclick="closeMobile()">🏥 Présentation</a>
+  <a class="mobile-link" href="Services.html" onclick="closeMobile()">⚕️ Services</a>
+  <a class="mobile-link" href="Medecin.html" onclick="closeMobile()">👨‍⚕️ Médecins</a>
+  <a class="mobile-link" href="Contact.html" onclick="closeMobile()">📩 Contact</a>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge"><i class="fa fa-hospital"></i> Présentation</div>
+    <h1>À Propos de l'EPH Soeurs Bedj</h1>
+    <p>Découvrez notre histoire, notre mission et notre organisation interne</p>
+  </div>
+</div>
+
+<!-- ===== ABOUT BLOCKS ===== -->
+<section class="about-sections">
+  <div class="container">
+
+    <!-- Histoire -->
+    <div class="about-block">
+      <div class="about-block-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&q=80" alt="Hôpital" loading="lazy"/>
+      </div>
+      <div class="about-block-content reveal-right">
+        <div class="badge"><i class="fa fa-book-open"></i> Notre Histoire</div>
+        <h2>Un établissement au cœur de Chlef</h2>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj de Chlef est un hôpital public algérien situé dans la wilaya de Chlef. Il constitue une référence médicale et hospitalière pour toute la région, offrant des soins de santé complets à la population depuis plus de trois décennies.</p>
+        <p>Fondé avec la mission de servir les habitants de la wilaya de Chlef, l'établissement a connu une évolution constante, modernisant ses équipements et élargissant ses services pour répondre aux besoins croissants de la communauté.</p>
+        <div class="ar-quote">
+          المؤسسة العمومية الاستشفائية الأخوات باج بالشلف هي مستشفى عام جزائري يقع في ولاية الشلف، يُعدّ مرجعاً طبياً وصحياً للمنطقة بأسرها، ويقدم خدمات الرعاية الصحية الشاملة للمواطنين.
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission -->
+    <div class="about-block" style="flex-direction:row-reverse;">
+      <div class="about-block-img reveal-right" style="order:2;">
+        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80" alt="Mission hospitalière" loading="lazy"/>
+      </div>
+      <div class="about-block-content reveal-left" style="order:1;">
+        <div class="badge"><i class="fa fa-bullseye"></i> Notre Mission</div>
+        <h2>Des soins accessibles à tous</h2>
+        <p>Notre mission est d'assurer des soins médicaux de qualité, accessibles à tous les citoyens de la wilaya de Chlef. Nous nous engageons à fournir des services médicaux dans le respect de la dignité humaine et de l'éthique médicale.</p>
+        <p>L'établissement se donne pour objectif d'améliorer continuellement la qualité des soins, de former le personnel médical et paramédical, et de contribuer au développement sanitaire de la région dans le cadre des orientations du système national de santé.</p>
+        <div class="stats-highlight">
+          <div class="stat-box"><div class="num">320+</div><div class="lbl">Lits d'hospitalisation</div></div>
+          <div class="stat-box"><div class="num">12</div><div class="lbl">Services spécialisés</div></div>
+          <div class="stat-box"><div class="num">85+</div><div class="lbl">Médecins spécialistes</div></div>
+          <div class="stat-box"><div class="num">35+</div><div class="lbl">Années d'expérience</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Structure interne -->
+    <div class="about-block">
+      <div class="about-block-img reveal-left">
+        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800&q=80" alt="Structure hospitalière" loading="lazy"/>
+      </div>
+      <div class="about-block-content reveal-right">
+        <div class="badge"><i class="fa fa-sitemap"></i> Structure Interne</div>
+        <h2>Une organisation rigoureuse</h2>
+        <p>L'EPH Soeurs Bedj dispose d'une structure organisationnelle bien définie, comprenant une direction générale, une direction médicale, un service des soins infirmiers, ainsi que des directions fonctionnelles chargées des finances, des ressources humaines et de la maintenance.</p>
+        <p>Chaque service est coordonné par des professionnels de santé expérimentés, garantissant une prise en charge optimale et un suivi continu des patients. L'établissement veille à maintenir des normes de qualité élevées à tous les niveaux de ses activités.</p>
+        <div class="ar-quote">
+          تتكون هيكلة المؤسسة من مديرية عامة، ومديرية طبية، وخدمة التمريض، فضلاً عن المديريات الوظيفية المكلفة بالمالية والموارد البشرية والصيانة.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== ORGANISATION ===== -->
+<section class="about-org">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="badge"><i class="fa fa-sitemap"></i> Organisation</div>
+      <h2 class="org-title" style="margin-top:12px;">Organisation Interne</h2>
+    </div>
+    <div class="org-grid">
+      <div class="org-card reveal"><i class="fa fa-building-columns"></i><h3>Direction Générale</h3><p>Pilotage stratégique et administratif de l'établissement</p></div>
+      <div class="org-card reveal"><i class="fa fa-user-tie"></i><h3>Direction Médicale</h3><p>Coordination des activités médicales et cliniques</p></div>
+      <div class="org-card reveal"><i class="fa fa-notes-medical"></i><h3>Service des Soins</h3><p>Organisation et suivi des soins infirmiers</p></div>
+      <div class="org-card reveal"><i class="fa fa-chart-line"></i><h3>Direction des Finances</h3><p>Gestion budgétaire et financière de l'établissement</p></div>
+      <div class="org-card reveal"><i class="fa fa-users-gear"></i><h3>Ressources Humaines</h3><p>Gestion du personnel médical et administratif</p></div>
+      <div class="org-card reveal"><i class="fa fa-wrench"></i><h3>Maintenance</h3><p>Entretien des équipements et infrastructures</p></div>
+      <div class="org-card reveal"><i class="fa fa-truck-medical"></i><h3>Pharmacie Centrale</h3><p>Gestion et distribution des médicaments</p></div>
+      <div class="org-card reveal"><i class="fa fa-graduation-cap"></i><h3>Formation Continue</h3><p>Développement des compétences du personnel</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VALEURS ===== -->
+<section class="values-section">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="badge"><i class="fa fa-star"></i> Nos Valeurs</div>
+      <h2 class="section-title" style="margin-top:12px;">Ce qui nous guide chaque jour</h2>
+      <p class="section-sub" style="margin:0 auto;">Des valeurs fondamentales qui orientent chacune de nos actions.</p>
+    </div>
+    <div class="values-grid" style="margin-top:44px;">
+      <div class="value-card reveal"><i class="fa fa-heart-pulse"></i><h3>Excellence Médicale</h3><p>Nous nous engageons à offrir des soins de la plus haute qualité, fondés sur les meilleures pratiques médicales et les dernières avancées scientifiques.</p></div>
+      <div class="value-card reveal"><i class="fa fa-hands-holding-child"></i><h3>Humanité & Respect</h3><p>Chaque patient est traité avec dignité, compassion et respect, indépendamment de son origine, de son statut social ou de sa condition.</p></div>
+      <div class="value-card reveal"><i class="fa fa-shield-halved"></i><h3>Sécurité des Patients</h3><p>La sécurité est notre priorité absolue. Nous mettons en œuvre des protocoles rigoureux pour prévenir tout risque et garantir la sécurité de nos patients.</p></div>
+      <div class="value-card reveal"><i class="fa fa-lightbulb"></i><h3>Innovation Continue</h3><p>Nous investissons constamment dans les nouvelles technologies médicales et la formation de notre personnel pour rester à la pointe des soins de santé.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Logo" loading="lazy"
+             style="filter:brightness(0) invert(1);"
+             onerror="this.onerror=null;this.style.display='none';"/>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj Chlef — votre partenaire de santé au service de toute la région de Chlef.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="footer-social" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="footer-social" href="mailto:ephsoeursbedjchlef02@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Accueil.html">Accueil</a>
+          <a class="footer-link" href="Presentation.html">Présentation</a>
+          <a class="footer-link" href="Services.html">Services</a>
+          <a class="footer-link" href="Medecin.html">Médecins</a>
+          <a class="footer-link" href="Activites.html">Activités</a>
+          <a class="footer-link" href="Contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Services.html">Urgences 24h/24</a>
+          <a class="footer-link" href="Services.html">Chirurgie</a>
+          <a class="footer-link" href="Services.html">Radiologie</a>
+          <a class="footer-link" href="Services.html">Laboratoire</a>
+          <a class="footer-link" href="Services.html">Maternité</a>
+          <a class="footer-link" href="Services.html">Cardiologie</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-items">
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>+213 28 58 49 94</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>ephsoeursbedjchlef02@gmail.com</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Urgences: 24h/24, 7j/7</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Recherche rapide</p>
+          <div class="footer-search">
+            <input type="text" placeholder="Chercher..." id="footer-search-input" onkeydown="footerSearch(event)"/>
+            <button onclick="footerSearch({key:'Enter'})" aria-label="Rechercher"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 EPH Soeurs Bedj Chlef. Tous droits réservés.</p>
+      <div class="theme-toggle">
+        <span>Mode sombre</span>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Thème"></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>

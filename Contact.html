@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact — EPH Soeurs Bedj Chlef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ===== CONTACT PAGE ===== */
+.contact-section { padding: 72px 0; background: var(--bg); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.35fr; gap: 64px; align-items: start; }
+
+/* Info side */
+.contact-info-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2rem); font-weight: 700; margin-bottom: 14px; }
+.contact-info p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.82; margin-bottom: 28px; }
+.contact-items { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
+.contact-item { display: flex; align-items: flex-start; gap: 16px; }
+.contact-item-icon { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg,rgba(31,95,139,0.1),rgba(47,174,155,0.1)); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1rem; flex-shrink: 0; }
+.contact-item h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+.contact-item p { font-size: 0.84rem; color: var(--text-muted); margin: 0; }
+.contact-item a { color: var(--primary); font-weight: 600; font-size: 0.84rem; }
+.contact-item a:hover { color: var(--teal); }
+
+/* Hours table */
+.hours-card { background: var(--bg2); border-radius: 14px; padding: 22px; border: 1px solid var(--border); margin-top: 4px; }
+.hours-card h4 { font-weight: 700; font-size: 0.88rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.hours-card h4 i { color: var(--teal); }
+.hours-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.84rem; }
+.hours-row:last-child { border-bottom: none; }
+.hours-row span:first-child { color: var(--text-muted); }
+.hours-row span:last-child { font-weight: 600; color: var(--text); }
+.badge-open { display: inline-block; padding: 2px 10px; border-radius: 50px; background: rgba(47,174,155,0.12); color: var(--teal); font-size: 0.72rem; font-weight: 700; border: 1px solid rgba(47,174,155,0.25); }
+
+/* Map placeholder */
+.map-box { border-radius: 14px; overflow: hidden; height: 180px; background: var(--bg2); border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); margin-top: 20px; text-decoration: none; transition: all var(--transition); }
+.map-box:hover { border-color: var(--primary); background: rgba(31,95,139,0.06); }
+.map-box i { font-size: 2.2rem; color: var(--primary); }
+.map-box span { font-size: 0.84rem; font-weight: 600; }
+.map-box small { font-size: 0.76rem; }
+
+/* Form card */
+.form-card { background: var(--card-bg); border-radius: 20px; padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.form-card-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 6px; }
+.form-card-sub { font-size: 0.86rem; color: var(--text-muted); margin-bottom: 28px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 7px; color: var(--text); }
+.form-group label span { color: #e74c3c; margin-left: 2px; }
+.form-input { width: 100%; padding: 12px 16px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.9rem; transition: border-color var(--transition), box-shadow var(--transition); outline: none; }
+.form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(31,95,139,0.1); }
+.form-input.error { border-color: #e74c3c; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-error { font-size: 0.76rem; color: #e74c3c; margin-top: 4px; display: none; }
+.form-error.show { display: block; }
+.submit-btn { width: 100%; padding: 14px; border-radius: 10px; background: var(--primary); color: #fff; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all var(--transition); margin-top: 6px; }
+.submit-btn:hover { background: var(--secondary); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(31,95,139,0.35); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.submit-btn .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.submit-btn.loading .spinner { display: block; }
+.submit-btn.loading .btn-text { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Success */
+.success-banner { display: none; background: rgba(47,174,155,0.1); border: 1.5px solid rgba(47,174,155,0.3); border-radius: 14px; padding: 22px; text-align: center; margin-top: 18px; }
+.success-banner.show { display: block; }
+.success-banner i { font-size: 2.5rem; color: var(--teal); display: block; margin-bottom: 10px; }
+.success-banner h4 { font-weight: 700; margin-bottom: 6px; color: var(--text); }
+.success-banner p { font-size: 0.86rem; color: var(--text-muted); }
+
+/* Error banner */
+.error-banner { display: none; background: rgba(231,76,60,0.08); border: 1.5px solid rgba(231,76,60,0.25); border-radius: 10px; padding: 14px 18px; font-size: 0.86rem; color: #c0392b; margin-top: 12px; align-items: center; gap: 10px; }
+.error-banner.show { display: flex; }
+
+/* FAQ */
+.faq-section { background: var(--bg2); padding: 80px 0; }
+.faq-grid { max-width: 760px; margin: 44px auto 0; display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; transition: all var(--transition); }
+.faq-item.open { border-color: var(--primary); box-shadow: 0 4px 24px rgba(31,95,139,0.1); }
+.faq-question { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; cursor: pointer; gap: 14px; }
+.faq-question h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); flex: 1; }
+.faq-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(31,95,139,0.08); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 0.8rem; flex-shrink: 0; transition: all var(--transition); }
+.faq-item.open .faq-icon { background: var(--primary); color: #fff; transform: rotate(180deg); }
+.faq-answer { padding: 0 22px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+.faq-answer p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.8; padding-bottom: 18px; }
+.faq-item.open .faq-answer { max-height: 300px; }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 560px) {
+  .form-card { padding: 24px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-logo" href="Accueil.html">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Soeurs Bedj Logo" loading="eager"
+             onerror="this.onerror=null;this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 48 48\'><rect width=\'48\' height=\'48\' rx=\'8\' fill=\'%231F5F8B\'/><text x=\'24\' y=\'30\' text-anchor=\'middle\' fill=\'white\' font-size=\'12\' font-weight=\'bold\'>EPH</text></svg>'"/>
+        <div class="nav-logo-text">
+          <span class="logo-main">EPH Soeurs Bedj</span>
+          <span class="logo-sub">Chlef — الشلف</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="Accueil.html">Accueil</a>
+        <a class="nav-link" href="Presentation.html">Présentation</a>
+        <a class="nav-link" href="Services.html">Services</a>
+        <a class="nav-link" href="Medecin.html">Médecins</a>
+        <a class="nav-link" href="Activites.html">Activités</a>
+        <a class="nav-link active" href="Contact.html">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-btn" onclick="toggleLang()">
+            <span class="lang-flag" id="activeLangFlag">🇫🇷</span>
+            <span id="activeLangLabel">FR</span>
+            <i class="fa fa-chevron-down" style="font-size:0.6rem;"></i>
+          </button>
+          <div class="lang-menu">
+            <div class="lang-option active" onclick="setLang('fr','🇫🇷','FR')"><span class="lang-flag">🇫🇷</span> Français</div>
+            <div class="lang-option" onclick="setLang('ar','🇩🇿','AR')"><span class="lang-flag">🇩🇿</span> العربية</div>
+            <div class="lang-option" onclick="setLang('en','🇬🇧','EN')"><span class="lang-flag">🇬🇧</span> English</div>
+          </div>
+        </div>
+        <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a class="mobile-link" href="Accueil.html" onclick="closeMobile()">🏠 Accueil</a>
+  <a class="mobile-link" href="Presentation.html" onclick="closeMobile()">🏥 Présentation</a>
+  <a class="mobile-link" href="Services.html" onclick="closeMobile()">⚕️ Services</a>
+  <a class="mobile-link" href="Medecin.html" onclick="closeMobile()">👨‍⚕️ Médecins</a>
+  <a class="mobile-link" href="Activites.html" onclick="closeMobile()">📰 Activités</a>
+  <a class="mobile-link active" href="Contact.html" onclick="closeMobile()">📩 Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge"><i class="fa fa-envelope"></i> Contact</div>
+    <h1>Contactez-nous</h1>
+    <p>Notre équipe est disponible pour répondre à toutes vos questions et vous orienter</p>
+  </div>
+</div>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- LEFT: Info -->
+      <div class="reveal-left">
+        <div class="badge" style="margin-bottom:16px;"><i class="fa fa-location-dot"></i> Informations</div>
+        <h2 class="contact-info-title">Nous sommes là pour vous</h2>
+        <p>N'hésitez pas à nous contacter pour toute question, prise de rendez-vous ou information sur nos services. Notre équipe vous répondra dans les meilleurs délais.</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-location-dot"></i></div>
+            <div>
+              <h4>Adresse</h4>
+              <p>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef, Algérie</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-phone"></i></div>
+            <div>
+              <h4>Téléphone</h4>
+              <p><a href="tel:+213285849494">+213 28 58 49 94</a><br>Standard disponible 24h/24</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-envelope"></i></div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:ephsoeursbedjchlef02@gmail.com">ephsoeursbedjchlef02@gmail.com</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa fa-clock"></i></div>
+            <div>
+              <h4>Urgences</h4>
+              <p>24h/24 — 7j/7 <span class="badge-open">Ouvert</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-card">
+          <h4><i class="fa fa-calendar-check"></i> Horaires des consultations</h4>
+          <div class="hours-row"><span>Dimanche – Jeudi</span><span>08h00 – 16h00</span></div>
+          <div class="hours-row"><span>Vendredi</span><span>08h00 – 12h00</span></div>
+          <div class="hours-row"><span>Samedi</span><span>08h00 – 12h00</span></div>
+          <div class="hours-row"><span>Urgences</span><span class="badge-open">24h / 7j</span></div>
+        </div>
+
+        <a class="map-box" href="https://maps.app.goo.gl/VBbZtDMaKmC44zPu9" target="_blank" rel="noopener">
+          <i class="fa fa-map-location-dot"></i>
+          <span>Voir sur Google Maps</span>
+          <small>حي بن سونة — Hay Ben Souna, Chlef</small>
+        </a>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="reveal-right">
+        <div class="form-card">
+          <h3 class="form-card-title">Envoyez-nous un message</h3>
+          <p class="form-card-sub">Nous vous répondrons dans les 24 heures ouvrables. Les champs marqués <span style="color:#e74c3c;">*</span> sont obligatoires.</p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nom <span>*</span></label>
+              <input type="text" class="form-input" id="c-name" placeholder="Votre nom complet"/>
+              <div class="form-error" id="err-name">Veuillez saisir votre nom.</div>
+            </div>
+            <div class="form-group">
+              <label>Email <span>*</span></label>
+              <input type="email" class="form-input" id="c-email" placeholder="votre@email.com"/>
+              <div class="form-error" id="err-email">Email invalide.</div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Téléphone</label>
+              <input type="tel" class="form-input" id="c-phone" placeholder="+213 XX XX XX XX"/>
+            </div>
+            <div class="form-group">
+              <label>Sujet <span>*</span></label>
+              <select class="form-input" id="c-subject">
+                <option value="">Sélectionnez un sujet</option>
+                <option>Prise de rendez-vous</option>
+                <option>Informations sur les services</option>
+                <option>Résultats d'analyses</option>
+                <option>Réclamation</option>
+                <option>Partenariat</option>
+                <option>Autre</option>
+              </select>
+              <div class="form-error" id="err-subject">Veuillez choisir un sujet.</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Message <span>*</span></label>
+            <textarea class="form-input" id="c-msg" rows="5" placeholder="Écrivez votre message ici..."></textarea>
+            <div class="form-error" id="err-msg">Veuillez saisir votre message.</div>
+          </div>
+
+          <button class="submit-btn" id="submitBtn" onclick="submitContact()">
+            <div class="spinner"></div>
+            <span class="btn-text"><i class="fa fa-paper-plane"></i> Envoyer le message</span>
+          </button>
+
+          <div class="success-banner" id="successBanner">
+            <i class="fa fa-circle-check"></i>
+            <h4>Message envoyé avec succès !</h4>
+            <p>Merci de nous avoir contacté. Notre équipe vous répondra dans les 24 heures ouvrables.</p>
+          </div>
+
+          <div class="error-banner" id="errorBanner">
+            <i class="fa fa-circle-exclamation"></i>
+            <span>Une erreur s'est produite. Veuillez réessayer ou nous contacter directement par téléphone.</span>
+          </div>
+
+          <!-- Note for admin -->
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:14px;text-align:center;">
+            <i class="fa fa-shield-halved" style="color:var(--teal);"></i>
+            Vos données sont traitées de manière confidentielle.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="faq-section">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="badge"><i class="fa fa-circle-question"></i> FAQ</div>
+      <h2 class="section-title" style="margin-top:12px;">Questions fréquentes</h2>
+      <p class="section-sub" style="margin:0 auto;">Retrouvez les réponses aux questions les plus posées par nos patients.</p>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Comment prendre rendez-vous à l'EPH Soeurs Bedj ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Vous pouvez prendre rendez-vous en appelant notre standard au <strong>+213 28 58 49 94</strong>, en vous présentant directement à l'accueil de l'établissement, ou en remplissant le formulaire de contact sur cette page. Nos agents vous orienteront vers le spécialiste approprié.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Quels documents apporter lors d'une consultation ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Veuillez apporter votre carte nationale d'identité, votre carnet de santé, les ordonnances et résultats d'examens antérieurs, ainsi que votre attestation d'affiliation à la CNAS ou CASNOS si applicable. Pour les mineurs, la présence d'un parent ou tuteur est obligatoire.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Le service des urgences est-il disponible la nuit et le week-end ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Oui, notre service des urgences fonctionne <strong>24h/24, 7j/7</strong>, y compris les nuits, week-ends et jours fériés. Une équipe médicale est toujours présente pour assurer la prise en charge de toute urgence vitale ou médicale.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Comment récupérer les résultats d'analyses ou de radiologie ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Les résultats d'analyses et d'imagerie peuvent être retirés directement au laboratoire ou au service de radiologie selon les délais annoncés lors du prélèvement. Munissez-vous du bulletin de réception qui vous a été remis. Pour toute question sur vos résultats, contactez le service concerné.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>L'hôpital accepte-t-il les patients sans assurance maladie ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Oui, en tant qu'établissement public hospitalier, l'EPH Soeurs Bedj accueille tous les patients, assurés ou non. Les tarifs appliqués sont ceux du secteur public algérien. Des dispositions particulières existent pour les cas sociaux et les urgences vitales.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Comment déposer une réclamation ou une suggestion ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Vous pouvez soumettre une réclamation ou une suggestion via le formulaire de contact de cette page, par email à <strong>ephsoeursbedjchlef02@gmail.com</strong>, ou directement à la direction de l'établissement. Toutes les réclamations sont traitées avec sérieux et confidentialité.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <h4>Y a-t-il un parking disponible à l'hôpital ?</h4>
+          <div class="faq-icon"><i class="fa fa-chevron-down"></i></div>
+        </div>
+        <div class="faq-answer"><p>Oui, un parking est disponible à l'entrée de l'établissement. Des places réservées sont prévues pour les personnes à mobilité réduite. L'hôpital est accessible depuis le centre-ville de Chlef, dans le quartier Hay Ben Souna (حي بن سونة).</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://res.cloudinary.com/dbh0mkfhe/image/upload/v1777989177/1000048463-removebg-preview_ve4mwl.png"
+             alt="EPH Logo" loading="lazy" style="filter:brightness(0) invert(1);"
+             onerror="this.onerror=null;this.style.display='none';"/>
+        <p>L'Établissement Public Hospitalier Soeurs Bedj Chlef — votre partenaire de santé au service de toute la région de Chlef.</p>
+        <div class="footer-socials">
+          <a class="footer-social" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="footer-social" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="footer-social" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="footer-social" href="mailto:ephsoeursbedjchlef02@gmail.com" aria-label="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Accueil.html">Accueil</a>
+          <a class="footer-link" href="Presentation.html">Présentation</a>
+          <a class="footer-link" href="Services.html">Services</a>
+          <a class="footer-link" href="Medecin.html">Médecins</a>
+          <a class="footer-link" href="Activites.html">Activités</a>
+          <a class="footer-link" href="Contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <div class="footer-links">
+          <a class="footer-link" href="Services.html">Urgences 24h/24</a>
+          <a class="footer-link" href="Services.html">Chirurgie</a>
+          <a class="footer-link" href="Services.html">Radiologie</a>
+          <a class="footer-link" href="Services.html">Laboratoire</a>
+          <a class="footer-link" href="Services.html">Maternité</a>
+          <a class="footer-link" href="Services.html">Cardiologie</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-contact-items">
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>حي بن سونة، الشلف<br>Hay Ben Souna, Chlef</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>+213 28 58 49 94</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>ephsoeursbedjchlef02@gmail.com</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Urgences: 24h/24, 7j/7</span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:0.78rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Recherche rapide</p>
+          <div class="footer-search">
+            <input type="text" placeholder="Chercher..." id="footer-search-input" onkeydown="footerSearch(event)"/>
+            <button onclick="footerSearch({key:'Enter'})" aria-label="Rechercher"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EPH Soeurs Bedj Chlef. Tous droits réservés.</p>
+      <div class="theme-toggle">
+        <span>Mode sombre</span>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Thème"></button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+/* ==============================
+   GOOGLE APPS SCRIPT ENDPOINT
+   Replace with your published
+   Google Apps Script Web App URL
+   ============================== */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID_HERE/exec';
+
+function validate() {
+  let ok = true;
+  const fields = [
+    { id: 'c-name', err: 'err-name', check: v => v.trim().length >= 2 },
+    { id: 'c-email', err: 'err-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'c-subject', err: 'err-subject', check: v => v !== '' },
+    { id: 'c-msg', err: 'err-msg', check: v => v.trim().length >= 10 },
+  ];
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    const err = document.getElementById(f.err);
+    if (!f.check(el.value)) {
+      el.classList.add('error'); err.classList.add('show'); ok = false;
+    } else {
+      el.classList.remove('error'); err.classList.remove('show');
+    }
+  });
+  return ok;
+}
+
+async function submitContact() {
+  document.getElementById('errorBanner').classList.remove('show');
+  if (!validate()) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const payload = {
+    name: document.getElementById('c-name').value.trim(),
+    email: document.getElementById('c-email').value.trim(),
+    phone: document.getElementById('c-phone').value.trim(),
+    subject: document.getElementById('c-subject').value,
+    message: document.getElementById('c-msg').value.trim(),
+    timestamp: new Date().toISOString(),
+    source: 'EPH Website Contact Form'
+  };
+
+  try {
+    /* ---- Send to Google Apps Script (Google Sheet) ---- */
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',  // required for Apps Script
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    /* Show success (no-cors means we can't read the response, assume success) */
+    document.getElementById('successBanner').classList.add('show');
+    btn.style.display = 'none';
+
+    /* Reset form */
+    ['c-name','c-email','c-phone','c-subject','c-msg'].forEach(id => {
+      const el = document.getElementById(id);
+      el.tagName === 'SELECT' ? (el.selectedIndex = 0) : (el.value = '');
+    });
+
+  } catch (err) {
+    /* Fallback: open mailto */
+    const mailBody = `Nom: ${payload.name}\nEmail: ${payload.email}\nTél: ${payload.phone}\nSujet: ${payload.subject}\n\nMessage:\n${payload.message}`;
+    window.location.href = `mailto:ephsoeursbedjchlef02@gmail.com?subject=Contact EPH - ${payload.subject}&body=${encodeURIComponent(mailBody)}`;
+    document.getElementById('errorBanner').classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+/* Remove error on input */
+['c-name','c-email','c-subject','c-msg'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', function() {
+    this.classList.remove('error');
+    const errId = 'err-' + id.replace('c-','');
+    document.getElementById(errId)?.classList.remove('show');
+  });
+});
+
+/* FAQ toggle */
+function toggleFaq(questionEl) {
+  const item = questionEl.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+
+<!-- ============================================================
+GOOGLE APPS SCRIPT SETUP INSTRUCTIONS (for admin):
+
+1. Open Google Sheets → Extensions → Apps Script
+2. Paste this code:
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  sheet.appendRow([
+    data.timestamp,
+    data.name,
+    data.email,
+    data.phone,
+    data.subject,
+    data.message
+  ]);
+  return ContentService.createTextOutput(JSON.stringify({status:'success'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+3. Deploy → New deployment → Web App
+   - Execute as: Me
+   - Who has access: Anyone
+4. Copy the Web App URL
+5. Replace APPS_SCRIPT_URL above with your URL
+============================================================ -->
+</body>
+</html>
